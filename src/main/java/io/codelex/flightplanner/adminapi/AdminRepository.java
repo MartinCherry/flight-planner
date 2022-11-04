@@ -1,0 +1,1 @@
+package io.codelex.flightplanner.adminapi;import io.codelex.flightplanner.domain.Flight;import org.springframework.stereotype.Repository;@Repositorypublic interface AdminRepository {    String canConnected();    Flight getFlight(int flight);    Flight addFlight(Flight input);    void removeFlight(int id);}

@@ -1,0 +1,1 @@
+package io.codelex.flightplanner.testapi;public interface TestRepository {    void clearFlights();}

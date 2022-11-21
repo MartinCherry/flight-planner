@@ -1,9 +1,10 @@
-package io.codelex.flightplanner.customerapi;
+package io.codelex.flightplanner.maintree.controllers;
 
 import io.codelex.flightplanner.domain.Airport;
 import io.codelex.flightplanner.domain.Flight;
 import io.codelex.flightplanner.domain.FlightSearch;
 import io.codelex.flightplanner.domain.PageResults;
+import io.codelex.flightplanner.maintree.services.FlightService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,9 +14,9 @@ import java.util.HashSet;
 @RequestMapping("/api")
 public class CustomerController {
 
-    private final CustomerService service;
+    private final FlightService service;
 
-    public CustomerController(CustomerService service) {
+    public CustomerController(FlightService service) {
         this.service = service;
     }
 
@@ -30,7 +31,7 @@ public class CustomerController {
     }
 
     @GetMapping("/flights/{id}")
-    public Flight getFlight(@PathVariable int id) {
+    public synchronized Flight getFlight(@PathVariable int id) {
         return service.getFlight(id);
     }
 

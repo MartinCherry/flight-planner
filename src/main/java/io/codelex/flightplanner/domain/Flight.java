@@ -28,13 +28,12 @@ public class Flight {
     private int id;
 
 
-    public Flight(@NotNull Airport from, @NotNull Airport to, @NotNull String carrier, @NotNull String departureTime,
-                  @NotNull String arrivalTime) {
-        this.from = from;
-        this.to = to;
-        this.carrier = carrier;
-        this.departureTime = LocalDateTime.parse(departureTime, dateTimeFormatter);
-        this.arrivalTime = LocalDateTime.parse(arrivalTime, dateTimeFormatter);
+    public Flight(AddFlightRequest addFlightRequest) {
+        this.from = addFlightRequest.getFrom();
+        this.to = addFlightRequest.getTo();
+        this.carrier = addFlightRequest.getCarrier();
+        this.departureTime = LocalDateTime.parse(addFlightRequest.getDepartureTime(), dateTimeFormatter);
+        this.arrivalTime = LocalDateTime.parse(addFlightRequest.getArrivalTime(), dateTimeFormatter);
         this.id = 0;
     }
 

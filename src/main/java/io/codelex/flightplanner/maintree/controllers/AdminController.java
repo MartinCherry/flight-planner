@@ -1,13 +1,14 @@
 package io.codelex.flightplanner.maintree.controllers;
 
-import io.codelex.flightplanner.domain.AddFlightRequest;
 import io.codelex.flightplanner.domain.Flight;
+import io.codelex.flightplanner.dto.AddFlightRequest;
 import io.codelex.flightplanner.maintree.services.FlightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/admin-api")
@@ -34,6 +35,7 @@ public class AdminController {
 
 
     @DeleteMapping("/flights/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public synchronized void removeFlight(@PathVariable int id) {
         this.service.removeFlight(id);
     }

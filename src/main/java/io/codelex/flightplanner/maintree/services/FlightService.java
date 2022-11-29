@@ -1,1 +1,27 @@
-package io.codelex.flightplanner.maintree.services;import io.codelex.flightplanner.domain.*;import io.codelex.flightplanner.maintree.repositories.FlightInMemoryRepository;import org.springframework.stereotype.Service;import java.util.HashSet;@Servicepublic class FlightService {    FlightInMemoryRepository repository;    public FlightService(FlightInMemoryRepository repository) {        this.repository = repository;    }    public synchronized Flight addFlight(AddFlightRequest input) {        return this.repository.addFlight(input);    }    public synchronized Flight getFlight(int input) {        return this.repository.getFlight(input);    }    public synchronized void removeFlight(int id) {        this.repository.removeFlight(id);    }    public HashSet<Airport> searchAirports(String input) {        return repository.searchAirports(input);    }    public PageResults<Flight> searchFlights(FlightSearch input) {        return repository.searchFlights(input);    }    public synchronized void clearFlight() {        this.repository.clearFlights();    }}
+package io.codelex.flightplanner.maintree.services;
+
+import io.codelex.flightplanner.domain.Airport;
+import io.codelex.flightplanner.domain.Flight;
+import io.codelex.flightplanner.dto.AddFlightRequest;
+import io.codelex.flightplanner.dto.FlightSearch;
+import io.codelex.flightplanner.dto.PageResults;
+import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+
+@Service
+public interface FlightService {
+
+
+    Flight addFlight(AddFlightRequest input);
+
+    Flight getFlight(int input);
+
+    void removeFlight(int id);
+
+    HashSet<Airport> searchAirports(String input);
+
+    PageResults<Flight> searchFlights(FlightSearch input);
+
+    void clearFlight();
+}

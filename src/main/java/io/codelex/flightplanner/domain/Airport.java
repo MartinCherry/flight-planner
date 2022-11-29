@@ -1,20 +1,28 @@
 package io.codelex.flightplanner.domain;
 
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-
+@Entity
+@Table(name = "airports")
 public class Airport {
 
     @NotBlank
     @NotNull
     private String country;
+
     @NotBlank
     @NotNull
     private String city;
+
     @NotBlank
     @NotNull
+    @Id
     private String airport;
 
 
@@ -59,9 +67,9 @@ public class Airport {
         if (!(o instanceof Airport airport1)) {
             return false;
         }
-        return getCountry().trim().equalsIgnoreCase(airport1.getCountry().trim()) && getCity().trim()
-                .equalsIgnoreCase(airport1.getCity().trim()) && getAirport().trim()
-                .equalsIgnoreCase(airport1.getAirport().trim());
+        return getCountry().trim().equalsIgnoreCase(airport1.getCountry().trim()) &&
+                getCity().trim().equalsIgnoreCase(airport1.getCity().trim()) &&
+                getAirport().trim().equalsIgnoreCase(airport1.getAirport().trim());
     }
 
     @Override

@@ -8,7 +8,7 @@ import io.codelex.flightplanner.maintree.services.FlightService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +21,7 @@ public class CustomerController {
     }
 
     @GetMapping("/airports")
-    public HashSet<Airport> searchAirport(@RequestParam String search) {
+    public List<Airport> searchAirport(@RequestParam String search) {
         return service.searchAirports(search);
     }
 
@@ -34,6 +34,4 @@ public class CustomerController {
     public synchronized Flight getFlight(@PathVariable int id) {
         return service.getFlight(id);
     }
-
-
 }

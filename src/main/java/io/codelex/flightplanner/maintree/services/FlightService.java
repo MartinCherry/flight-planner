@@ -7,7 +7,7 @@ import io.codelex.flightplanner.dto.FlightSearch;
 import io.codelex.flightplanner.dto.PageResults;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.List;
 
 @Service
 public interface FlightService {
@@ -19,9 +19,11 @@ public interface FlightService {
 
     void removeFlight(int id);
 
-    HashSet<Airport> searchAirports(String input);
+    List<Airport> searchAirports(String input);
 
     PageResults<Flight> searchFlights(FlightSearch input);
 
     void clearFlight();
+
+    void clearAirports();
 }

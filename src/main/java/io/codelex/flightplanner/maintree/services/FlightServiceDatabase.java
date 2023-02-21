@@ -14,9 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
@@ -78,55 +75,29 @@ public class FlightServiceDatabase implements FlightService {
     }
 
 
-    public HashSet<Airport> searchAirports(String input) {
-        HashSet<Airport> foundAirports = new HashSet<>();
-        Iterable<Flight> flightList = this.flightRepository.findAll();
-
-        String inputConverted = input.toLowerCase().trim();
-        for (Flight flight : flightList) {
-            String fromCountry = flight.getFrom().getCountry().toLowerCase();
-            String fromCity = flight.getFrom().getCity().toLowerCase();
-            String fromAirport = flight.getFrom().getAirport().toLowerCase();
-            String toCountry = flight.getTo().getCountry().toLowerCase();
-            String toCity = flight.getTo().getCity().toLowerCase();
-            String toAirport = flight.getTo().getAirport().toLowerCase();
-
-            if ((fromCountry.startsWith(inputConverted)) || (fromCity.startsWith(inputConverted)) ||
-                    (fromAirport.startsWith(inputConverted)) || (toCountry.startsWith(inputConverted)) ||
-                    (toCity.startsWith(inputConverted)) || (toAirport.startsWith(inputConverted))) {
-                foundAirports.add(flight.getFrom());
-            }
-
-        }
-        return foundAirports;
+    public List<Airport> searchAirports(String input) {
+        String searchWord = input.trim().toLowerCase();
+        return this.airportRepository.searchAirport(searchWord);
     }
 
 
     public PageResults<Flight> searchFlights(FlightSearch input) {
-        List<Flight> resultsList = new ArrayList<>() {
-        };
-
-        Iterable<Flight> flightList = flightRepository.findAll();
-
         if (input.getFrom().equals(input.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        for (Flight flight : flightList) {
-            String searchFrom = input.getFrom().trim().toLowerCase();
-            String searchTo = input.getTo().trim().toLowerCase();
-            LocalDate searchDate = input.searchDateInFormat();
-            String fromAirport = flight.getFrom().getAirport().toLowerCase();
-            String toAirport = flight.getTo().getAirport().toLowerCase();
-            LocalDate departureDate = flight.getDepartureTime().toLocalDate();
-
-            if (searchFrom.equals(fromAirport) && searchTo.equals(toAirport) && searchDate.equals(departureDate)) {
-                resultsList.add(flight);
-            }
-        }
-        return new PageResults<>(0, resultsList.size(), resultsList);
+        List<Flight> flights = flightRepository.searchFlight(
+                input.getFrom(),
+                input.getTo(),
+                input.searchDateInFormat().atStartOfDay(),
+                input.searchDateInFormat().plusDays(1).atStartOfDay());
+        return new PageResults<>(0, flights.size(), flights);
     }
 
     public synchronized void clearFlight() {
         this.flightRepository.deleteAll();
+    }
+
+    public void clearAirports() {
+        this.airportRepository.deleteAll();
     }
 }
